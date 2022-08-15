@@ -181,7 +181,11 @@ public class AuthorizeHandler extends ChannelInboundHandlerAdapter implements Di
 
         Transport transport = null;
         try {
-            transport = Transport.valueOf(transportValue.get(0));
+            String transportString = transportValue.get(0);
+            if (transportString != null) {
+                transportString = transportString.toUpperCase();
+            }
+            transport = Transport.valueOf(transportString);
         } catch (IllegalArgumentException e) {
             log.error("Unknown transport for request {}", req.uri());
             writeAndFlushTransportError(channel, origin);
